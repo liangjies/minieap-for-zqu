@@ -334,7 +334,7 @@ static int rjv3_append_common_fields(PACKET_PLUGIN* this, LIST_ELEMENT** list, i
 
 static int rjv3_should_fill_dhcp_prop(struct _packet_plugin* this) {
     return (PRIV->dhcp_type == DHCP_BEFORE_AUTH) ||
-            (PRIV->dhcp_type == DHCP_DOUBLE_AUTH && PRIV->succ_count >= 2);
+            (PRIV->dhcp_type == DHCP_DOUBLE_AUTH && PRIV->succ_count >= 1);
 }
 
 /* The bytes containing twisted IPv4 addresses */
