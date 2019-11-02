@@ -1,0 +1,1540 @@
+[33mcommit 97b80e29526c294c9103eb77e0b41ad78925de76[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: liangjies <1139629972@qq.com>
+Date:   Fri Nov 1 22:58:18 2019 +0800
+
+    Update packet_plugin_rjv3_priv.c
+
+[33mcommit ddad50c0a60f096da09f3b2269f4c7b9ed4072d3[m
+Author: Droid-MAX <1029086180@qq.com>
+Date:   Fri May 17 23:45:00 2019 +0800
+
+    rjv3_hashes: fix detect aarch64 arch error.
+
+[33mcommit bf4f1b4fec68621365301d6b2f61361319372ff3[m
+Author: Richard Yu <yurichard3839@gmail.com>
+Date:   Sat Jan 12 22:51:15 2019 +0800
+
+    config: fix no-auto-reauth wrong value.
+
+[33mcommit 3bdba552489cde1ea61f7169a31e57ce8929e4c8[m
+Author: Richard Yu <yurichard3839@gmail.com>
+Date:   Sat Jan 12 22:44:14 2019 +0800
+
+    misc: fix hex2char reverse.
+
+[33mcommit 5ef1fa6e5acf37c46f103872091f27df0865964e[m
+Author: Richard Yu <yurichard3839@gmail.com>
+Date:   Thu Jan 10 03:37:15 2019 +0800
+
+    gbconv: add bounds checking.
+
+[33mcommit 7124083ee2e8162114ab3a1de74582bbb5f965bf[m
+Author: sidekicklx <lixuezixiang@gmail.com>
+Date:   Wed Aug 8 22:31:01 2018 -0700
+
+    util: specify permission for open(O_CREAT)
+
+[33mcommit 119b64a918687eba6a18778b827cf8d1c04b7869[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue May 22 23:07:19 2018 +0800
+
+    build: do not generate deps for unselected modules
+
+[33mcommit 08d05256353ec62b189035c52802a36b7719956a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue May 22 23:02:46 2018 +0800
+
+    build: make deps generation compatibile with macOS
+    
+    * `sed` on macOS requires explicit `extension` for `-i`,
+      while this argument can be left out in Linux implementation.
+      This caused the pattern being recognized as backup extension
+      in macOS, and the command line gets messed up.
+    
+    * Add `-e` to get rid of this ambiguity. Both implementation
+      recognize this change.
+    
+      This fixes "sed: invalid command code x" errors.
+
+[33mcommit ffe6f5d3ed14dd60f51615119901fda0025c62a3[m
+Author: ysc3839 <yurichard3839@gmail.com>
+Date:   Tue May 22 22:47:16 2018 +0800
+
+    net_util: add support for obtaining gateway on macOS
+    
+    * Closes #29
+
+[33mcommit 227a665cfdfed64d5f60370ca3344a3891a6876d[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Apr 6 17:49:03 2018 +0800
+
+    rjv3: bump plugin version to 0.92
+    
+    * This is a critical bug fix.
+
+[33mcommit 51414b0e869e41ddd8adc4372a6fbf1aaa51aa63[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Apr 6 17:46:26 2018 +0800
+
+    rjv3: various fixes about IPv4 header generation
+    
+    * Any DHCP_TYPE other than DHCP_NONE suggests we are using DHCP, not just 1.
+    * Restore the waiting for DHCP to complete. This avoids invalid IP being
+      sent to server.
+    * Do not send any IP info in 1st auth. This could confuse servers, which in turn
+      causes auth failures. There are already several reports on this.
+
+[33mcommit b7027d1a2291a8f68a9da02aac00b53226fe018f[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Apr 6 18:56:38 2018 +0800
+
+    rjv3: fix order of enums in --dhcp-type help text
+    
+    * This is meant to be compatible with mentohust. Code logic is right,
+      but help text is not.
+
+[33mcommit 12f2c5756ffa379e760d5ea373ca61403b7ffcb9[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Feb 9 00:23:27 2018 +0800
+
+    Bump program version to 0.92.1
+    
+    * I planned to separate plugins from main program so that
+      we can update them independently. That's why plugin version
+      is different from that of main program.
+      But the plugins are still bundled with main program, we have to
+      update version number when any single part gets updated...
+
+[33mcommit 01ae921efad620b3b650b5b971840942332eb863[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Feb 9 00:19:14 2018 +0800
+
+    rjv3: bump plugin version to 0.91.1
+    
+    * Fixed a critical bug where the plugin fails to prepare
+      non MD5-Challenge-Response frames.
+
+[33mcommit 1e1f520c404d8dea7a157e2b4a270e6a5c8bd4b5[m
+Author: Yangfl <mmyangfl@gmail.com>
+Date:   Wed Feb 7 19:56:05 2018 +0800
+
+    Include unselected modules when cleaning
+    
+    If some module is compiled but later removed from config.mk,
+    `make clean` will not be able to clean its directory since
+    it's not in $(BUILD_MODULES) anymore.
+    
+    Include all modules when cleaning to get rid of all possible
+    generated files.
+    
+    [Original commit message: fix makefile clean]
+
+[33mcommit 7cc82a7101186a7113a12f154f290f0809b26d69[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Feb 7 19:41:57 2018 +0800
+
+    Do not regenerate .d files when cleaning
+    
+    "include" directive will cause regeneration of .d files. This is
+    a waste of time and resources, and can be pretty slow on some
+    platforms.
+
+[33mcommit c69ac979f06456ffdfa7a732dde367f7028b8278[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Feb 9 00:01:21 2018 +0800
+
+    rjv3: properly handle properties with zero length
+    
+    * Some properties does not have content (e.g. password hashes in
+      EAPOL-Start). `memdup` will return NULL in this case, but
+      this is not an error. Take care of this before `memdup`ing.
+    
+    * Calling `memmove` with zero length causes undefined behavior.
+      Avoid this, even though (nearly) every implementation
+      checks the parameter...
+
+[33mcommit 15436f1746cd9b622b892b2a28b311c40201c7fe[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Feb 8 23:57:50 2018 +0800
+
+    misc: make memdup() conform to standards
+    
+    * This series of functions return NULL on error, not -1.
+      Errors are indicated by `errno` global variable, which has been
+      set by malloc.
+
+[33mcommit c1badfcb130987125a7ff2590bc50484420bcf58[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Feb 3 14:37:53 2018 +0800
+
+    Bump main & plugin ver to 0.92
+    
+    Release note:
+    
+    This release contains:
+    
+    * A minimal GBK -> UTF-8 converter, which can be used to reduce
+      binary size while keeping server messages readable.
+    * A proprietary header generator for IPv4 information.
+    * Manpage and systemd service template. Ready for packaging.
+    
+    Thanks to all contributors!
+    
+    Footnote:
+    
+    * I wish I had named previous tag 0.9.1
+
+[33mcommit 3af6352129f82153562f9b0b82a7831e3f3b7466[m
+Author: yangfl <yangfl@users.noreply.github.com>
+Date:   Thu Feb 1 22:33:08 2018 +0800
+
+    fix compile warnings
+
+[33mcommit d4d8d9aa418a3e380381f43c03de9a8d2e975eb6[m
+Author: yangfl <yangfl@users.noreply.github.com>
+Date:   Thu Feb 1 21:31:47 2018 +0800
+
+    Makefile: add install and uninstall target
+
+[33mcommit 1c94120fdf1ade3449f455b2c87e33a084c06335[m
+Author: yangfl <yangfl@users.noreply.github.com>
+Date:   Thu Feb 1 21:31:21 2018 +0800
+
+    update systemd service
+
+[33mcommit f912bca912940a7e1de461e0956222076af69cea[m
+Author: yangfl <yangfl@users.noreply.github.com>
+Date:   Thu Feb 1 21:31:06 2018 +0800
+
+    add manpage
+
+[33mcommit 176dbd77c7ec27adff9b50ed44c808eefc08e52b[m
+Author: Richard Yu <yurichard3839@gmail.com>
+Date:   Wed Nov 29 19:16:46 2017 +0800
+
+    packet_plugin_rjv3: RJ priv header generate algorithm.
+    * The code is from decompiled rj linux client.
+
+[33mcommit c8ea49c106749a223324c09f11bdfd48471bafb4[m
+Author: Richard Yu <yurichard3839@gmail.com>
+Date:   Tue Nov 28 14:16:00 2017 +0800
+
+    packet_plugin_rjv3: Update prop types description.
+    * These description are from decompiled rj linux client.
+    * I can confirm that type 0x70 is client os bits so I changed its name.
+
+[33mcommit ba08b7caaaef22fdac347edae872760a7be90fdf[m
+Author: dantmnf <dantmnf2@gmail.com>
+Date:   Fri Sep 15 13:19:33 2017 +0800
+
+    gbconv: don't compile if not enabled
+
+[33mcommit b43f12500fe582ade3063614209c38eae5efbbe4[m
+Author: dantmnf <dantmnf2@gmail.com>
+Date:   Fri Sep 15 13:13:22 2017 +0800
+
+    gbconv: add build option
+
+[33mcommit 9787b957da737f28bf9c8445a74e8c877a557dd8[m
+Author: dantmnf <dantmnf2@gmail.com>
+Date:   Fri Sep 15 13:05:21 2017 +0800
+
+    add GBK -> UTF-8 converter
+
+[33mcommit 71742efab398798e354d15919ce25f1d87ec1b40[m
+Author: Felix Yan <felixonmars@archlinux.org>
+Date:   Wed May 10 23:10:23 2017 +0800
+
+    Fix a typo: memeber -> member
+
+[33mcommit 642b69f2cab067787f5c4bddecb14546e3ec2dee[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Apr 27 15:52:28 2017 +0800
+
+    packet_plugin_rjv3: move dhcp-script option here
+    
+    * An authenticator should not bother performing DHCP,
+      so move it from main program to the plugin where it's
+      needed.
+    * Respect DHCP_DOUBLE_AUTH and DHCP_AFTER_AUTH.
+      DHCP_BEFORE_AUTH is not supported.
+    * Save this option in config file.
+
+[33mcommit 5e755750eea32f6394600abdfaf58b33b6b3458b[m
+Author: Felix Yan <felixonmars@archlinux.org>
+Date:   Thu Mar 30 14:34:55 2017 +0800
+
+    Add example configuration and systemd service
+
+[33mcommit 2cf61af1cd4a8f9d070d0e4ce9c4392fa4c78c19[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Mar 30 10:46:29 2017 +0800
+
+    license: Choose GPLv3 as license
+    
+    * Original MentoHUST is distributed under GPLv3, and thus all
+      derivative work should use the same license. Make it clear.
+
+[33mcommit 4bfe42015dc2e599043cd938a3ab058967bd069b[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Mar 11 00:07:35 2017 +0800
+
+    pid_lock: Fix missing include under Linux & inconsistent whitespace
+    
+    * And restore default config.mk for Linux
+    * Should have noticed before pushing...
+
+[33mcommit f63c4313d5968cddf686c6693480f262e1335fd4[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Mar 8 00:26:03 2017 +0800
+
+    pid_lock: Various tweaks
+    
+    * Support `--pid-file none` to disable multiple
+      process checking.
+    * Save PID after daemonizing (otherwise SIGTERM would
+      be sent to non-existent PID if daemonizing is enabled)
+
+[33mcommit d7a11b1dbabaf69700b7cbf696f37259d7da42a8[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Mar 7 23:59:19 2017 +0800
+
+    minieap: Delay destruction of config structure
+    
+    * PID file needs to be removed upon exit, and
+      thus we need to keep config->pidfile until
+      it finishes.
+    * Keep config to the last.
+
+[33mcommit 2b3e98795e602ef28f0140f7bf6004610b38a3e4[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Mar 7 00:37:23 2017 +0800
+
+    pid_lock: Introduce PID file locking
+    
+    * Do not allow two 802.1x authenticator run at the same time.
+
+[33mcommit b25c846e6eac3b7a5f621e901f49bd1beef6661e[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Mar 5 21:29:41 2017 +0800
+
+    config: Respect user settings for daemon & log mode
+    
+    * Command line help is not consistent with code logic.
+      Fix the help string (same as MentoHUST)
+    * Store exact value of `-b` in config file :-/
+
+[33mcommit 5d4b63b04654dc159c47e8744e92edd37120fa32[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Feb 25 00:06:12 2017 +0800
+
+    packet_plugin_rjv3: Duplicate content when modifying prop
+    
+    * Do not trust external data source.
+    * Now add / modify has the same logic of `memdup`. Should be fine here.
+
+[33mcommit 7e482985bb76b51e4ff4885d8a8e485c067f2b6f[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Jan 18 22:09:31 2017 +0800
+
+    if_impl_sockraw: Show the errors threw by sendto()
+    
+    * Otherwise the user will see "Transition function failed" without
+      knowing why.
+    * We have already printed too many detailed error messages in the
+      transition functions, and the transitions are pretty straightforward.
+      Do not print the redundant message in switch_to_state().
+
+[33mcommit 515ff2abdef5793f41587c681bbcd66cc98e1930[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Jan 18 18:03:39 2017 +0800
+
+    packet_plugin_rjv3: Read echo key in case of DHCP failures, ...
+    
+    * `rjv3_process_result_prop()` does not get called if DHCP fails,
+      and no echo key will be set. Heartbeat will fail with wrong echo key.
+    * Duplicate the frame and parse it when DHCP fails to get the correct
+      echo key.
+    * Also fix error on older compilers.
+
+[33mcommit 24534be5eab084b8aaac65be4ef78448a0bedf86[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Dec 14 19:01:03 2016 +0800
+
+    packet_plugin_rjv3: Properly reset internal state
+    
+    * Keepalive timer needs to be stopped if FAILURE is received.
+    * Call reset() before parsing echo key / echo no properties.
+    * Clean up some memory leaks.
+
+[33mcommit 5611b61b3c1c2a02b70963232c63bb93f1a8e9e0[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Dec 14 18:35:24 2016 +0800
+
+    minieap: Delay daemonizing until startup finishes
+    
+    * It's annoying when I found errors such as
+      "Operation not permitted" in log file...
+      Just print them before daemonizing so that
+      we can see more errors on stdout, allowing
+      quicker responses.
+
+[33mcommit 347c7c687d0894e1d3651ac90418af71a3b84482[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Dec 14 18:15:45 2016 +0800
+
+    config: Remove the "-b" hack, implement "-b 1"
+    
+    * Use `g_prog_config.run_in_background` for temporary storage
+      for --daemonize to remove the ugly hack.
+    * Also enables `daemonize=x` in config file.
+    * "-b 1" means "run in bg with no logging". Sending our log
+      to /dev/null should be fine with -b 1.
+    * Fix the logic of restart_on_logoff.
+
+[33mcommit 89abbeb299b288c873bad8dd43afa49cf5075e4a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Dec 13 00:06:32 2016 +0800
+
+    config: Free memory occupied by save_config_file(), ...
+    
+    * Call conf_parser_free() after everything about config file finishes.
+    * If we do not free it before saving new values, unexpected duplication
+      will happen. Though freeing twice looks hacky, it's better than
+      conf_parser_set_value which scans the dictionary every time we call.
+    * Maybe a dictionary based on hash key would be better?
+    * Restore old behavior of configure_daemon_log_param(). It needs to be
+      called after argument parsing to figure out the value of --logfile.
+
+[33mcommit 13402b0304d8646e5527ee8f084402fadf528c2d[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Dec 12 21:01:50 2016 +0800
+
+    conf_parser: Drop module selection from config if "--module" presents, ...
+    
+    * This will cause duplicated module selection and user confusion.
+      E.g. the config file has "module=rjv3", the cmdline says
+      "--module printer". In what order shall we execute them?
+    * Make RTRIM work again! The 1st char becomes \0 after "strtok",
+      and the strnlen happily returns 0.
+
+[33mcommit 57265033b0225cf86b6acceffc9cd2676b32db1a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Dec 12 20:11:43 2016 +0800
+
+    conf_parser: Runtime bugfixes
+    
+    * No disqualification warnings
+    * Add missing brackets, semicolons
+    * Get longIndex for short options
+    * Implement itoa
+    * Actually save the config
+    
+    misc: Correct my_itoa
+    
+    * Swapping should stop after half the string, not the whole string.
+      That's turning 360 degs.
+    * Was I drinking?
+
+[33mcommit e5ff4a328b0636eeaa832974ece7d93e6f4f0a76[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Dec 12 16:03:03 2016 +0800
+
+    all: Implement config file reading/saving
+    
+    * conf_parser_{get|set}_value is now useless LOL
+    * Does it look like a DOM parser?
+    
+    config: Save packet plugin list in packet_plugin.c
+    
+    * g_prog_config.packet_plugin_list is not reliable when
+      it's sourced by reading from config file. The content
+      could have been freed in conf_parser_free() when saving.
+    * g_active_packet_plugin is ROCK SOLID!
+    
+    rjv3: Add support of reading/saving config file
+
+[33mcommit 8285f1ab0c3cf5eda4e8013e267d9d7ad31a4c84[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Dec 12 00:36:21 2016 +0800
+
+    conf_parser: Implement a simple config file parser
+    
+    * The file needs to be in plain "key=value" format. One pair per line.
+    * Lines beginning with # are treated as comments and ignored.
+      But no inline comments are allowed.
+    * Leading and trailing whitespaces are ignored.
+    * Call `conf_parser_set_file_path()` then `..._parse_now()` before usage.
+    
+    conf_parser: Simplify macros, add free function
+
+[33mcommit 8bdf8204bcc8328dbca302c98e507d63f88fdf78[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Dec 1 22:32:45 2016 +0800
+
+    eap_state_machine: Properly handle failure when restart on logoff is set
+    
+    * Inverted logic hurts puppies!
+    * Reset the state variables before restarting authentication.
+    * If restart_auth() is called while processing failure, the state will
+      still be set to FAILURE when the state transition function finishes.
+      This will cause trouble with state watchdog - it transits to FAILURE
+      every 5sec. Delay the restart_auth() call to get correct state.
+
+[33mcommit d129ae68aea460aee018efc5c78139183edfccf3[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Dec 1 22:21:42 2016 +0800
+
+    packet_plugin_rjv3: Only override broadcast address in EAPOL-Start
+    
+    * If broadcast address is set to RJ, the plugin will override
+      destination address in every packet. However, this is only needed
+      when sending EAPOL-Start. We certainly do not want our MD5-Challenge
+      broadcast all over the network.
+    * The state machine will handle the server address discovery.
+      Let it do its job.
+
+[33mcommit 9b0b20902f5b6ad521aec9d695039c32ac0b89fd[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Nov 24 11:02:12 2016 +0800
+
+    if_impl: Be consistent about the sending result
+    
+    * Always SUCCESS or FAILURE
+
+[33mcommit 534a42998d3f870a724fcd4a2ba51ef321f41f04[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Nov 24 01:07:22 2016 +0800
+
+    if_impl_bpf: Introduce a new interface implementation: BPF
+    
+    * Mostly an equalivent of RAW socket of our usage here.
+    * No other libraries required.
+
+[33mcommit 49e968382420910321dc8b885abbbf19725d57c4[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Nov 23 13:54:48 2016 +0800
+
+    main: Warn about wrong --module arguments
+    
+    * Why my --module does not work?
+
+[33mcommit b85300bfc55decc39d3547a528d1777b6b5655d7[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Nov 23 13:38:38 2016 +0800
+
+    plugin / impl: Rename the macro to define_in_section,...
+    
+    * Re-documented packet_plugin.
+    * Compare full names of plugins.
+
+[33mcommit e46745079fef5298b9c1a533afe8983114a61c37[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Nov 23 00:02:43 2016 +0800
+
+    plugin / impl: macOS compatibility
+    
+    * Code is so magical!
+
+[33mcommit e82dae751c0292d485db93286e49a987aa7b2e0e[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Nov 22 22:46:08 2016 +0800
+
+    build: Cleanup config.mk, if_impl: Compare full names
+    
+    * Don't mess with environment vars.
+    * When doing static builds, do not use -l.
+    * if_impl: --if-impl lib won't select libpcap anymore.
+      What if there is something else?
+
+[33mcommit 7ef0ccc9cecf078b7f26d1e1a9ffbeda3678a304[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Nov 22 22:17:31 2016 +0800
+
+    lds: Move our sections after .data to reduce binary size
+    
+    * It seems that putting the new sections to the page where
+      text/rodata sits will cause .text to be placed after 0x200000 bytes,
+      and the binary will be 2.2MB on x86. Normally it would be ~140KB.
+    * Still don't know why ld does this, nor why it behaves normally on ARMv7.
+    * Regretted again that I did not major in Computer Science.
+
+[33mcommit 19ac5c18a7e44f3b79e253d8992441839876b73d[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Nov 22 21:32:51 2016 +0800
+
+    all plugin/impl: Auto-probe every plugins / impls
+    
+    * Learned from Linux kernel, never knew that code
+      can be so magical.
+    * One thing to note: the position of __*_[START|END]__
+      represents where the section(the point symbol) is.
+      If you define __*_[START|END]__ as primitive types,
+      their content will be *linker_pos.
+      This is not the behavior of regular variables:
+      Regular variables has their addresses auto-assigned and values
+      fall in our control with "=" operator.
+      Symbols defined in linker script has their addresses in our control
+      with the "=" operator, but we don't know their values in this case.
+    * To make this short: linker is something that defines/resolves the address
+      of symbols. It sets address of __*_START to section start, so we need
+      to get its address (&_*_START) in order to access the content of section.
+      We do not care about the content of this variable and can declare it as any type.
+
+[33mcommit c2278c0bc01f79620474e5b8979382d8c70c047c[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Nov 22 19:57:13 2016 +0800
+
+    config: Select first available if_impl when none is specified, ...
+    
+    * Defaulting to "sockraw" is not friendly to those who use libpcap.
+    * Re-documented if_impl.h. It should be pretty clear now.
+    * Include if_impl list in help.
+    * Include packet plugins with no cmdline help function in help.
+
+[33mcommit 34f8d0a861ca6adce8508b68cfaab3d40b295cad[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Nov 21 19:01:30 2016 +0800
+
+    if_impl_libpcap: Use a valid read timeout to obtain new packets in time
+    
+    * If read timeout is zero, then the (internal?) `read` call will
+      wait until the buffer is filled up with packets before it returns.
+      This may significantly delay the trigger of packet handler.
+      During my tests with macOS, the program will only be notified
+      about new packets when authentication server sends a 2nd packet.
+    * Set it to a non-zero value will make the `read` call return after
+      such amount time of time, regardless of the state of buffer. This
+      is expected.
+    * Note: this return can happen after a packet arrives and given time
+      passes, but it can happen when where is no packets at all - it
+      returns every 100ms. However, pcap_loop is always a loop, and we
+      do not need to care if the underlying call returns or not...
+    * So, the optimal value should be less than the server retry timeout.
+      We could make it return new packets "immediately" (1ms) but
+      not necessary if there's possibility that it returns when there is
+      no new packet in the buffer - one thousand of calls per sec is too many...
+
+[33mcommit 30183ee6b8223de3621021b971ccfe01945e0594[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Nov 21 18:52:57 2016 +0800
+
+    net_util: Fix segfault when handling fopen failures
+    
+    * _fp will be invalid in such case. Do not try to access it
+      in any way.
+    * Fixes segfault with macOS, may also fix Android.
+
+[33mcommit 57cea9414ba774d2f6c38e683bfd610b202ee23c[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Nov 20 13:25:38 2016 +0800
+
+    build: Avoid conflict with CFLAGS environment variable
+
+[33mcommit e448af2d659028c6fbaf83358acd18067413b3ac[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Nov 19 15:46:53 2016 +0800
+
+    eap_state_machine: Cancel alarm for state watchdog only
+    
+    * Previous implementation will drop double auth's alarm.
+    * I have the feeling that cancelling all alarms will cause bugs,
+      and here it is.
+    * Also move the PRIV->state == state check out of loop. It does not
+      require the state to be present in trans func table (rare case...)
+    * Add an end marker for list printing (debug).
+
+[33mcommit b6392c46e3881a78ebc30f1bd0157238f62acc3f[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Nov 14 12:11:44 2016 +0800
+
+    eap_state_machine: Properly reset all state vars after session finishes
+    
+    * "Session" means a complete authentication attempt and all related
+      network transaction. When a session ends, it means we are not planning
+      any more (timeout- or failure-)retry, not expecting any new packets
+      coming in, not performing any more consequential authentication (e.g.
+      2nd auth in case of double auth). All we plan to do next is either
+      exiting (when fail) or listening for force-offline request (when succeed).
+      In the latter case, we will start a whole new session, so reset all
+      state variables in such case.
+
+[33mcommit cefb3ff9e18174640f9abf53107c3b0394395ee0[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Nov 14 12:06:57 2016 +0800
+
+    ALL: let output be more user-friendly
+    
+    * Be clear about what we are doing now.
+    * Also removed ugly dst_mac in set_outgoing_eth_fields.
+      Why can't we read server_mac directly, given that local_mac is read
+      as such?
+    * Server's MAC address is a "runtime variable". Clear it when clearing
+      other state variables.
+
+[33mcommit 8be7bbd02b31b1df6185e52050cc95c7d106ac6f[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Nov 14 11:04:03 2016 +0800
+
+    eap_state_machine: Notify plugins about new packets earlier
+    
+    * This is partially reverting 734f7e1d8b6e37be6026d6644bfe25395ebd2f12 .
+      That commit may there dealing with alarm issues, but it is not the
+      case now.
+    * When the authentication continously fails, the program will exit
+      before last FAILURE packet being dispatched to plugins. This could
+      be annoying when max_failure is set to 1, in which case you won't
+      see any error message from server if authentication fails.
+
+[33mcommit b789632bea5bba44334ec3ac567ed19a6bb28664[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Nov 8 15:36:15 2016 +0800
+
+    Update README.md
+
+[33mcommit fde53445bf7285999d64524fd7c69e9123e5d3c1[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Nov 6 17:48:09 2016 +0800
+
+    Warn about `-umyname` format
+    
+    * Causes confusion for plugins when processing cmdline
+    * One question: why does getopt() in config.c accept
+      unrecognized options (no warning), but in plugins it does not?
+
+[33mcommit 22562bc20ded4630266c9082711430658ecb5aa4[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Nov 5 14:18:46 2016 +0800
+
+    Help text for rjv3 plugin
+    
+    * Usable...
+
+[33mcommit 9de680bcdd2e7d3d511bae68d752ef602bab8871[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Nov 5 13:38:29 2016 +0800
+
+    eap_state_machine: Change state after transition function
+    
+    * Bug: PRIV->state == EAP_STATE_FAILURE in state_mach_process_failure
+      when we received failure while current state is success.
+      EAP_STATE_SUCCESS is expected in such case.
+
+[33mcommit 297f37d014daddfd3395ced1c46f890e84054f7c[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Nov 1 12:59:39 2016 +0800
+
+    rjv3: Use a separate option for maximum DHCP count
+    
+    * max-failures and max-retries mean something more severe.
+      We can wait longer for our DHCP program, but not server failures.
+
+[33mcommit 681b05b98dce09ba52b0c679d1a0cb957140491d[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 31 13:49:09 2016 +0800
+
+    Move compiling config to config.mk, move ifaddrs to a directory, ...
+    
+    * iconv is now an option. No need to fiddle with code now.
+    * Split configuration to config.mk. No need to even look at the evil Makefile.
+    * Added a LIBS variable, can be used to include .a files when linking.
+    * ifaddrs move into a directory, since the implementation in uClibc requires
+      some extra headers. This simplifies minieap.mk in utils/.
+    
+    This is the 2nd commit message:
+    
+    ifaddrs: Add minieap.mk
+    
+    * Add implementation here. You can find one in all kinds of C library.
+
+[33mcommit a49e86ead4d94565b2042c6210a2526b9525f30f[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Oct 30 00:56:28 2016 +0800
+
+    Add a README
+    
+    * Finally there is something...
+
+[33mcommit ae42caaf1d19421ee4329368a486bbf31b6679a8[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 29 23:40:21 2016 +0800
+
+    sched_alarm: Prevent maniputing alarm list during list_traverse
+    
+    * This would cause very bad consequences, such as accessing freed memory area.
+      List_traverse holds pointer to next item internally, but it could not know
+      that what func(node->content) would do.
+    * Solve the issue by replacing removing with marking,
+      and inserting operations will be performed on a temporary list.
+      After the list has been traversed, remove all marked nodes and concatenate
+      the temporary list with the main one.
+    * Duplicating the list before traversing is easier, but it's wasting memory...
+    
+    This is the 2nd commit message:
+    
+    sched_alarm: Remove outdated comments
+    
+    * Now everything is clear about this utility. No more guessing,
+      no more assumption.
+
+[33mcommit 1abd051781e09ffdf9c33bcab1a14e2dd7bfaeed[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 29 23:38:55 2016 +0800
+
+    eap_state_machine: Clarify logic about resetting watchdog
+    
+    * This is an old bug... Now the nightmare is end.
+
+[33mcommit 85a640ce4e7db1f56a213441c1b4026e9a3cbd83[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 29 23:35:37 2016 +0800
+
+    linkedlist: Remove all nodes matching given data & concatenating two list
+
+[33mcommit 52abbdbeb867bd586df4c07aafa2ae2e53402347[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 29 00:46:50 2016 +0800
+
+    eap_state_machine: Respect user-defined stage timeout
+
+[33mcommit d0671a0f1f76cc95ae52d2e303d0330b26dc948c[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 29 00:38:05 2016 +0800
+
+    Generate header dependency files for consistency
+    
+    Original commit message:
+    
+    Fix segfault on ARMv7
+    
+    * Do you understand what's happening?
+    * Do not use . for all-c-files-under, which will cause wrong paths
+
+[33mcommit 30bc834704b1d06545c1c375de76e2639b68cb91[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 29 00:37:14 2016 +0800
+
+    config: Implement -h, show banner, change some default value
+
+[33mcommit 6674af854f0564444c714fe7f3f1f06d4e03743f[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 26 12:19:41 2016 +0800
+
+    Implement restart-on-logoff checking, do not search for echo key in non-success packets
+    
+    * Also split if_impl_libpcap to a separate entry for easier commenting
+    * Rewording
+
+[33mcommit f95433116cb98b6eabaaa1de5cd7ad5850556790[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 25 17:20:07 2016 +0800
+
+    Some macOS compatibility & use getifaddrs for MAC address
+    
+    * Now it builds under macOS (without if_impl_sockraw ofc)
+    * Will two calls to getifaddrs affect performance on low-end devices?
+    
+    This is the 2nd commit message:
+    
+    Correct getifaddr usage on Linux, NULL-safety in free_frame
+
+[33mcommit b6b02d9aeb5ffcb93807ece8fa528edabbdeee31[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 25 15:08:39 2016 +0800
+
+    if_impl.c / packet_plugin.c to $1/, common headers -> include/
+
+[33mcommit e087f987175b4be467d3427eb07ea15204822cfa[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 24 22:52:36 2016 +0800
+
+    Re-structure with subdirs
+    
+    This is a combination of 3 commits.
+    The first commit's message is:
+    Move sources to folders and make them recursively
+    
+    * First time writing Makefile...
+    
+    This is the 2nd commit message:
+    
+    Rename vars in Makefile
+    
+    This is the 3rd commit message:
+    
+    Move common routine about collecting .c files to main Makefile
+    
+    * Also correct comments
+
+[33mcommit ef74522936f8da35259c55ae9144ce82f402fc35[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 24 16:28:17 2016 +0800
+
+    Remove redundant header includes, ...
+    
+    * Use host byte order in setup_capture_params
+    * Move interface preparing to minieap.c (...)
+
+[33mcommit d5464096a62cadbf65f1e60342586ce2c630577e[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 24 16:01:26 2016 +0800
+
+    Duplicate the frame we received in EAP state machine
+    
+    * The state_watchdog will call state transition functions with
+      last_recv_frame. However, this variable is directly set to
+      the frame passed in in eap_state_machine_recv_handler, which is
+      provided by if_impl.
+    * We can not guarantee if_impl will hold this frame in such case.
+      If it drops the frame right after frame_handle returns, the
+      reference in EAP state machine will be invalid when timeouts occur.
+    * Duplicate the frame in EAP state machine so that it's guaranteed
+      valid when timeouts occur.
+    * Packet plugins will benefit from this commit also. They do not need
+      to worry about the availability of the frame any more.
+
+[33mcommit 99dc8288f266170113e26566af0e338c47caabc9[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 24 15:20:49 2016 +0800
+
+    Add prepare_interface to if_impl to set up the interface
+    
+    * Do not set up the interface in start_capture. It's not
+      what start_capture should do.
+
+[33mcommit 17d2e54f9c407aea7375aaac09fae99fe36e87cf[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 24 12:42:57 2016 +0800
+
+    New interface implementation: libpcap, portable but heavy
+    
+    * I mean "heavier than sockraw"
+    * Also %zu -> %hhu for printing byte (%hu for short)
+
+[33mcommit ed814d404f9d8dd41477ed698f9e64df354adce6[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 24 12:37:12 2016 +0800
+
+    Run in background, polish logging util
+
+[33mcommit ed768d8ea0b3d971f10dcf664f561e0c1b56be85[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 24 11:37:20 2016 +0800
+
+    malloc.h -> stdlib.h, perform DHCP, remove redundant ifaddrs.o
+    
+    * Some compatibility for macOS
+    * Actually do DHCP plz...Though I don't mean it that way, at least
+      it works (kinda)
+
+[33mcommit d898cb0ab29b637c0beaf9c317dc55a30607b277[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Oct 23 18:58:37 2016 +0800
+
+    Fix a typo in default version string, fix MD5 packet identifying
+    
+    * RJ -> RG
+    * "MD5" is a type, not a code
+
+[33mcommit 6fcaa5ac83b5e0f7fa820bce16ec5f7711628654[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Oct 23 14:19:10 2016 +0800
+
+    RJv3: Send keep-alive frames after success
+
+[33mcommit 3c0bc0c0ae065edd79b46f8fd9322d03e0d772e0[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Oct 23 12:49:03 2016 +0800
+
+    Move RJv3 proprietary things to priv.c
+    
+    * Keep only public-facing code in plugin.c
+
+[33mcommit a85b5e0c0776dda1bf9181e1426ea319e888631a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Oct 23 11:46:13 2016 +0800
+
+    Use randomized port ID for NETLINK operations, do not ignore its errors
+    
+    * Sometime we open multiple sockets to NETLINK, and we should not use
+      the same port ID among the sockets.
+
+[33mcommit b3ef671187295536c1482d281a454531499548b8[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Oct 23 00:04:34 2016 +0800
+
+    Properly process the IP addresses, ignore netlink error
+    
+    * Inverted
+    * Don't know why NETLINK throws "No such file or directory". But
+      if we ignore it, we can still get route information...
+
+[33mcommit 632587e8836a92530c8d7c9c7abfcf2a9afcf7e8[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 22:55:29 2016 +0800
+
+    Don't print fields with zero length
+    
+    * I'm wondering where those badly-formatted frames come from...
+
+[33mcommit 41acedff562162afaebbd7ea850df9d028ba4d56[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 22:41:36 2016 +0800
+
+    Free all the memory!
+
+[33mcommit 0e730cd65f6d0a5e5d343645ad91056555f53754[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 22:12:31 2016 +0800
+
+    Clear memory in NETLINK operations
+    
+    * Avoid bogus results.
+
+[33mcommit 734f7e1d8b6e37be6026d6644bfe25395ebd2f12[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 21:47:39 2016 +0800
+
+    Call plugins' on_frame_received after main program, ...
+    
+    * Properly handle alarm(0) return values. It's "time to next alarm", not
+      "time elapsed since last call". Since update_remaining takes
+      the former as param, calculate it manually.
+    * Clear all alarms on success/failure. These two states imply that
+      the authentication is over, thus turn off all pending alarms.
+      This is useful when the server send arbitary requests (e.g. when
+      the switch reboots).
+    * Reset state watchdog alarm to 5s when state change, or previous
+      timeouts will affect later process.
+
+[33mcommit ea694262bc647c90863713b5a4f78886e3519e39[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 20:31:23 2016 +0800
+
+    Clear UTF-8 buffer to avoid random chars being shown,...
+    
+    This is the 2nd commit message:
+    
+    Write IP info to header, fix Makefile, bit_reverse, misc bugs
+    
+    * Also clear the info on 2x success.
+    
+    This is the 3rd commit message:
+    
+    Pass PRIV->last_recv_frame as parameter in state_watchdog
+    
+    * No need to hold a reference itself.
+    * And the refernece held in watchdog's event will expire!
+
+[33mcommit e902663cc1f83937baa1a9e09149bf3323d85ef8[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 19:30:56 2016 +0800
+
+    Modify IPv4 info before sending 2nd auth
+    
+    * Needed to show correct IP address in management center.
+
+[33mcommit ad5ef265b20f1cf3e6702aa85d2023908b3008b4[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 17:29:42 2016 +0800
+
+    Implement timeout-retry mechanism
+    
+    * Note that we can enter any state at any time (e.g. enter STATE_FAILURE
+      after STAT_START_SENT) so alarms should be set in all intermediate states.
+    * There should be only one alarm set for state_watchdog, check if there
+      is an alarm ID before setting,
+    * Remember to set alarm ID to 0 when unscheduling.
+
+[33mcommit ade2473c9c4ad49802f3f1e09feb1e78bccaf1a6[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 15:12:57 2016 +0800
+
+    Disallow firing events when alarm is already ringing
+    
+    * Some users call `schedule_alarm` in their alarm handler,
+      but this call will `update_remaining_and_fire` and fire this
+      alarm again since its remaining time is zero.
+    * This approach is better than unscheduling the event before
+      calling it or adding a fired flag.
+    * And make `find_min_remaining` return valid time (i.e. not
+      zero, which means the corresponding event is already being
+      fired)
+
+[33mcommit 56f9026c01e573e0d4d576fbbce8177c62b76c80[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 14:49:45 2016 +0800
+
+    [DIRTY]Make list_traverse deletion-safe
+    
+    It's not a good idea to alter the list when traversing...
+    But I don't want to bother creating another list to store
+    the nodes (and manually lookup & delete)...
+
+[33mcommit a0fdcdc6c2781206374c529c02fc2e103d1beded[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 14:27:24 2016 +0800
+
+    Actually restart authentication on failure
+
+[33mcommit 935d6523147506673d365a8f29c90d448711a73a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 14:18:13 2016 +0800
+
+    Fix alarm reloading logic
+    
+    * It's not reloading at all...
+
+[33mcommit e13d0356f12c47784045b5b052e4c6d219c86d9e[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 13:23:47 2016 +0800
+
+    Show server welcome messages
+    
+    * Also transcode GBK to UTF-8
+
+[33mcommit 2921bb3fc6961dc1c66ad78e5e6517e86606e935[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 12:44:03 2016 +0800
+
+    Parse buffer to prop list
+
+[33mcommit b47e436a821cbf60dceb5d68452b5ec6adcc7bdb[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 11:50:42 2016 +0800
+
+    Move magic to header2 since bare props need it
+
+[33mcommit 60933a41ef27f341e6a8c2a3f5031d0d4dd271e5[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 10:55:29 2016 +0800
+
+    Do not "serialize" bare prop, error handling for append_*_prop
+
+[33mcommit 3776fe02f8254cd4cabf65558166500753ae3211[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 00:15:41 2016 +0800
+
+    Implement bit_reverse
+
+[33mcommit 56961c809c03ee3df4701db151e2f41071327e97[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 22 00:02:39 2016 +0800
+
+    Implement alarm scheduler, make list_destroy/remove able to free content,...
+    
+    * Simplified COPY_N_ARG_TO macro
+
+[33mcommit ee9d58876b44add99f7dd8d0eb245db2a4920298[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Oct 21 21:26:25 2016 +0800
+
+    Allow cmdline to override prop, fake DNS1 & 2, fix misordered argv
+    
+    * The '-' in optstring tells getopt_long not to permute argv. Instead,
+      return 1 for each unknown cmdline option. This is a GNU extension.
+
+[33mcommit 8ee92e0119b0cfb6fdd79dc24d842a67bb84ae5a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Oct 21 20:15:20 2016 +0800
+
+    Move magic_2 to RJ_PROP for "bare prop" support
+    
+    * Props in SUCCESS/FAILURE does not have HEADER1, but they have magic_2
+    * It does not belong to HEADER2 either, since field length needs to be
+      calculated by sizeof(HEADER2)
+    * Also rename to magic, since there is no magic_1
+
+[33mcommit 5812581e77ef38d61d080da5e3e40480f173f18b[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Oct 21 16:54:33 2016 +0800
+
+    Add net_util for network operations (obtain IP/MAC/DNS/gateway)
+    
+    This is a combination of 3 commits.
+    The first commit's message is:
+    Move obtain_[ip|mac] to separate files, no whitespace
+    
+    * This does not belong to interface implementation!
+    
+    This is the 2nd commit message:
+    
+    Move DNS retriving logic to net_util
+    
+    * We need EVERY entry in /etc/resolv.conf, not just 2nd one.
+    
+    This is the 3rd commit message:
+    
+    Add ability to get default gateway for specific interface
+    
+    * Code from http://stackoverflow.com/a/3288983/5701966, adapted for
+      this project.
+
+[33mcommit 3b75107734603b8b04ef261c986127e578098a59[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Oct 21 00:24:26 2016 +0800
+
+    success_count -> auth_round, implement success/failure handler
+    
+    * success_count and auth_round is the same things, but the latter
+      is more meaningful.
+
+[33mcommit d6adecb36133c36ab5612455553f12dfa9b02909[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 20 23:38:04 2016 +0800
+
+    Store server MAC addr, send RESPONSE instead of REQUEST, fix names
+    
+    * How can I mistook those identity/challenge names...
+    * What we should send is RESPONSE, not REQUEST
+    * VER_STR is zero-terminated, while SEC_DNS does not have any
+      terminating char.
+
+[33mcommit bf845fe205212173fd47539f29f17eeda6a3fa7b[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 20 14:57:42 2016 +0800
+
+    Do not show V4 type
+
+[33mcommit 984ec5386645b4db165378ef78fcf191cef415f4[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 20 14:49:01 2016 +0800
+
+    Trim HDD serial string and DNS string, avoid stask smashing by _sec_dns
+    
+    * _sec_dns is too small for IPv6 DNS
+    * Remove spaces in HDD serial
+    * Remove \n in DNS
+
+[33mcommit f09a04558ee79a11342c227552af0dd55974c964[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 20 14:48:08 2016 +0800
+
+    Reset optind before calling plugins' cmdline parser
+    
+    * Or it will be at the end of argv, which leads to non-working getopt.
+
+[33mcommit 5867338ce0718ffca525f4b01fe5218ef97c6ff7[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 20 13:43:48 2016 +0800
+
+    Handle the 0x02 prop properly
+    
+    * It's a container for all other 0x1a properties. Form it
+      as it should be.
+
+[33mcommit 4eaf4569404c1ba8c9c16da63df329588c9a8282[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 20 11:10:26 2016 +0800
+
+    Load default params on call
+
+[33mcommit b3244929702f76a40a607cf1b3aa5ba1d7024242[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 20 09:12:56 2016 +0800
+
+    Runtime fixes: init ptr with zero, corrent init sequence, NULL-safe
+    
+    Squashed:
+    
+    Runtime fixes: Let insert_data handle node creation
+    
+    * If we create manually, we have to specify its content manually.
+      Since insert_data handles this well, let it do this.
+
+[33mcommit f5494f094f6262c104314b9bc6c8501eb623931c[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 19 23:53:32 2016 +0800
+
+    Implement EAP state machine
+    
+    Squashed:
+    * The driver of the whole process
+    
+    Mostly finish state transition functions
+
+[33mcommit 33458f47d40aabe177e8f9acba5ec0946ec979a2[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 19 17:28:15 2016 +0800
+
+    Validate parameters before entering main logic
+
+[33mcommit 280232aebadb9e766291826e5f119ea6ec9f5d74[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 19 14:37:48 2016 +0800
+
+    Plugin Demonstration: a simple packet printer
+    
+    It just prints everything passing it, including sending/receiving.
+    You can use it in `--pkt-plugin` multiple times to see how the packet
+    differs after passing other plugins.
+    
+    This is an example for plugins.
+
+[33mcommit 95b6c8d7010526d763a35e1a2ee56a54597e7b32[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 19 14:19:12 2016 +0800
+
+    Check if plugin provided the desired function before calling
+
+[33mcommit ce08930d5ca6779c5fcd55f73f180e161cc56ff0[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 19 14:06:12 2016 +0800
+
+    Be clever about remove_data
+    
+    * Be clever and clear!
+
+[33mcommit 75da570391ad3dbd1584d137235620867c1ac3f2[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 19 14:03:49 2016 +0800
+
+    Properly implement remove_data in linked list
+
+[33mcommit 7810aa6fc516416f4a90e0ac95a7e628f59be5f2[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 19 00:27:50 2016 +0800
+
+    Receive frames from specific interface
+    
+    * setsockopt(..., SOL_SOCKET, SO_BINDTODEVICE,...) does not work, we
+      have to use `bind`
+    * Also prepare for 2nd IF_IMPL used for proxy's LAN access
+    * Tests now run to `start_capture`
+
+[33mcommit 0d48b1d1c790ecbb862bbc5b17a7ec3a7856f63d[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 18 23:06:20 2016 +0800
+
+    Fix typos, suppress unrecoginzed option warning, handle missing arg manually
+    
+    And fix warnings
+
+[33mcommit 143ea9d549685c4d6a542432dd3ebd996991e1b4[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 18 22:43:37 2016 +0800
+
+    Initial step for main program
+    
+    * Valgrind checked
+    * Param initialization procedure
+    * Specific if-impl and pkt-plugin/module on cmdline
+
+[33mcommit 1474624b5ecc3370a6f5d0418b50a941e824de61[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 18 21:59:53 2016 +0800
+
+    Load default settings, gather results of packet plugin calls
+
+[33mcommit 040b0571a01b512446f8a100695d21a6a8891c5a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 18 21:58:55 2016 +0800
+
+    Make packet builder self-managed
+    
+    Just like config.c. There is no plan to make it selectable like if_impl.
+
+[33mcommit da2944193ae9f56f4110ee98da4e8adb9de221bf[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 18 21:57:19 2016 +0800
+
+    Do not free content in linked list implementation
+    
+    Users should handle this on their own.
+
+[33mcommit c88e343228bf7c2a2dd30e00333d0e558532f30a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 17 00:46:17 2016 +0800
+
+    Allow specifying executing order of packet plugins (on cmdline)
+    
+    And allow executing a plugin twice (useful for plugins such as
+    frame debuggers, they can be run after every other plugin to see
+    what is changed).
+
+[33mcommit ca7274cc8a284b1c9c12c8bd4e04d071e4b8c54c[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Mon Oct 17 00:29:21 2016 +0800
+
+    Add "static" manager "class" for packet plugins
+
+[33mcommit 27851adcc1969ad15407d208acad2b47a33a37a7[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sun Oct 16 17:49:39 2016 +0800
+
+    Calculate standard MD5-Value response
+
+[33mcommit 27b81ff35fac04a7ea84c1b236a3d641191c779a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 15 21:35:58 2016 +0800
+
+    Remove redundant headers
+
+[33mcommit 6d4555a9fdb100c4fb5aafaf58d9d46729b5a2fc[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 15 21:05:45 2016 +0800
+
+    Rename dhcp_script to run_on_success & move back to program config,...
+    
+    * We have to notify system that authentication succeeded, this is
+      the simplest way.
+    * Double authentication requires the require_successes variable.
+      Make it into general config, not only in proxy config.
+    * Add `set_auth_round`. Remember to call this with "1" when program
+      starts.
+
+[33mcommit 434a6df6029d49fcaec6e2adb80e390027d47823[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 15 20:56:18 2016 +0800
+
+    Complete RJv3 fields: HDD serial, secondary DNS
+
+[33mcommit c6595e751ecfed4b31e39111541fcf6ee92e1c4c[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 15 20:04:13 2016 +0800
+
+    Actually bring-in hyrathb's algorithm
+
+[33mcommit d993cf5c96a9401787aa7cb019b1cc316fd5eecf[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 15 12:31:23 2016 +0800
+
+    Fill in RJv3 fields
+    
+    Squashed commit:
+    
+    Duplicate the content in append_rjv3_prop
+    
+    * For better memory management
+    
+    Add obtain_ip to IF_IMPL
+    
+    * Simple wrapper of getifaddrs, but this is independent of
+      the socket layer...
+    
+    Apply customization of RJv3 fields
+    
+    Check for the need of allocating in append_rjv3_prop
+    
+    Clarify MISC_1, MISC_3 to PWD_HASH, LL_IPV6_1
+    
+    * I could not reproduce the case where there are
+      two link local addresses...
+    * MISC_1 / PWD_HASH only exists in MD5-Challenge,
+      which is why I lost that during previous analyzation.
+    
+    Clean up the rjv3_priv struct
+    
+    * Move all the cmdline options to a sub struct
+    * Remove cmd_ prefixes
+    
+    Export get_{program|eap}_config
+    
+    Split RJv3 calculation into several functions
+
+[33mcommit 5cf3aa4df1bc7d623eec413c5c44b10aa699bdc9[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 15 12:30:27 2016 +0800
+
+    Check if append_rjv3_prop succeeded
+    
+    * If not, return -1 (the packet would be incomplete, do not use it)
+
+[33mcommit afbef24d8a3bde92886c1b6883a5868bbd41806a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Sat Oct 15 12:16:55 2016 +0800
+
+    Move append_prop_to_frame to _prop.c
+
+[33mcommit 4bb4bdac10de685c4b357fcbb7a97ff53f768ad6[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Oct 14 11:05:45 2016 +0800
+
+    Packet/Auth plugin: RJV3, move dhcp_script to plugin
+    
+    * EAP client does not perform DHCP (But we can't notify system ...?)
+    * Need to work out some way to perform double auth, since EAP states
+      are managed by main program, which does not handle proprietary
+      protocol...
+    
+    Document more constants
+    
+    * What is another 0x10-length field for? Site IPv6?
+
+[33mcommit dbf509aceb449f806f4dd3fb2a9c135962dffff6[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Fri Oct 14 10:42:07 2016 +0800
+
+    Make exported structure names UPPERCASE
+    
+    * For consistency
+
+[33mcommit f8e71d5a22b073bebabaa2972400de8ceb26d522[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 13 13:34:44 2016 +0800
+
+    Send to specific interface in sockraw
+
+[33mcommit 1dad7849db35a0c1a3559090b5dbc17f46a12bc8[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 13 13:04:03 2016 +0800
+
+    Rename if_plugin -> if_impl
+    
+    * We can only activate one plugin/implementation at one time,
+      better call it implementation.
+      (we can have multiple packet plugins active at the same time)
+    * "Implementation" is more accurate...
+
+[33mcommit dc8aacc1fc23f03255166fa8f6a7062bcafc8439[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Thu Oct 13 12:45:11 2016 +0800
+
+    Return number of interface plugins, init/shutdown -> new/destroy
+    
+    * For interface plugins, their `new` methods are called in if_plugin.c
+      and thus in main program there should not be any `init` again.
+      Rename it to `set_ifname`.
+    * Name things according to convention.
+    * Return number of initialized if plugins for further use (print all?)
+    * Complete packet_builder_destroy.
+
+[33mcommit ba6b033dd20438e0494e962729c5251fd1d3bfc3[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 12 23:37:57 2016 +0800
+
+    Implement base EAP packet builder
+
+[33mcommit 3a833f41fe17c0aab0e8339ea83d46d84de0b7b7[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 12 19:52:22 2016 +0800
+
+    gitignore, linked list implementation, if plugin interface
+
+[33mcommit 4181d34567d7b0feac95ae6d0babcdd56d8d22d9[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 12 19:51:34 2016 +0800
+
+    Log level, errno, function name logging
+
+[33mcommit d3b4f9502219df887852f25d37bd937637c19ca5[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Wed Oct 12 15:57:15 2016 +0800
+
+    Implement if_plugin_sockraw
+    
+    * Not tested
+
+[33mcommit 50951e7c011288b7016a0e0de9325defd3ac8c77[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 11 21:38:56 2016 +0800
+
+    Logging, cmdline parser
+    
+    * From my MentoHUST fork
+
+[33mcommit 85406bf1abff36bb41daff218555e4ce1dffa65a[m
+Author: Hamster Tian <haotia@gmail.com>
+Date:   Tue Oct 11 21:34:45 2016 +0800
+
+    Initial commit for MiniEAP: header/skeleton
