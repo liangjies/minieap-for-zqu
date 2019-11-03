@@ -50,7 +50,7 @@ static RESULT pid_lock_handle_multiple_instance() {
                 return FAILURE;
             case KILL_ONLY:
                 PR_ERR("已有另一个 MiniEAP 进程正在运行，PID 为 %d，即将发送终止信号并退出……", pid);
-                kill(pid, SIGTERM);
+                kill(pid, SIGINT);
                 return FAILURE;
             case KILL_AND_START:
                 PR_WARN("已有另一个 MiniEAP 进程正在运行，PID 为 %d，将在发送终止信号后继续……", pid);
