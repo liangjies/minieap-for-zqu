@@ -1,5 +1,5 @@
 ## 前言
-针对肇庆学院锐捷认证修改的minieap
+针对肇庆学院锐捷认证修改的minieap，修复心跳问题
 #### 以下是使用示例，
 ```
 minieap -u 用户名 -p 密码 -n 网卡名 -b 0 --module rjv3 -e 20 -d 1 -c "dhclient" --version-str "RG-SU For Linux V1.30"
